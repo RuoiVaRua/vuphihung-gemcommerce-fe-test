@@ -134,7 +134,7 @@ function showTooltip(message: string) {
     className="w-screen h-screen bg-neutral-950 flex items-center justify-center text-neutral-100"
   >
     <div className="w-96 bg-neutral-800 p-4 rounded-lg">
-      Your component go here
+      <!-- Your component go here -->
       <div class="bg-[#151515] p-4 rounded-lg w-[280px] h-[120px] m-auto">
         <div class="mb-4 flex justify-between items-center">
           <div class="text-[#AAAAAA]">Unit</div>
