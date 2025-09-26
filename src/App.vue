@@ -127,6 +127,58 @@ function showTooltip(message: string) {
 		isShowTooltip.value = false;
 	}, 5000);
 }
+
+// Class binding helper functions
+function getUnitButtonClasses(buttonUnit: string) {
+	return [
+		"px-4 h-full w-50 flex justify-center items-center",
+		buttonUnit === "%" ? "rounded-l-lg" : "rounded-r-lg",
+		unit.value === buttonUnit
+			? "bg-[#424242] text-[#F9F9F9]"
+			: "bg-[#212121] text-[#AAAAAA]",
+	];
+}
+
+function getInputContainerClasses() {
+	return [
+		"relative flex items-center rounded-lg w-[140px] h-[36px]",
+		isHovering.value ? "bg-[#424242]" : "bg-[#212121]",
+		isFocused.value ? "shadow-[0_0_0_1px_#3C67FF] rounded-lg" : "",
+	];
+}
+
+function getDecrementButtonClasses() {
+	return [
+		"px-3 h-full w-[36px] z-1 rounded-l-lg flex justify-center items-center",
+		shouldDisableDecrement.value
+			? "text-[#3B3B3B] cursor-not-allowed"
+			: "text-[#F9F9F9] hover:bg-[#424242]",
+	];
+}
+
+function getInputClasses() {
+	return [
+		"text-[#F9F9F9] text-center w-full outline-none z-1",
+		isHovering.value ? "bg-[#424242]" : "bg-[#212121]",
+	];
+}
+
+function getIncrementButtonClasses() {
+	return [
+		"px-3 h-full w-[36px] z-1 rounded-r-lg flex justify-center items-center",
+		shouldDisableIncrement.value
+			? "text-[#3B3B3B] cursor-not-allowed"
+			: "text-[#F9F9F9] hover:bg-[#424242]",
+	];
+}
+
+function getTooltipClasses() {
+	return [
+		"absolute w-fit top-0 opacity-0 transition-all ease-in-out duration-200 whitespace-nowrap z-0 mt-2 bg-[#212121] text-[#F9F9F9] text-sm px-3 py-1 rounded-lg",
+		isShowTooltip.value ? "opacity-100 top-[calc(-100%-8px)]" : "opacity-0 top-0",
+		tooltipPosition.value === "left" ? "left-[-55%]" : "right-[-55%]",
+	];
+}
 </script>
 
 <template>
@@ -141,23 +193,13 @@ function showTooltip(message: string) {
           <div class="flex w-[140px] h-[36px]">
             <button
               @click="switchUnit('%')"
-              class="px-4 h-full w-50 rounded-l-lg flex justify-center items-center"
-              :class="
-                unit === '%'
-                  ? 'bg-[#424242] text-[#F9F9F9]'
-                  : 'bg-[#212121] text-[#AAAAAA]'
-              "
+              :class="getUnitButtonClasses('%')"
             >
               %
             </button>
             <button
               @click="switchUnit('px')"
-              class="px-4 h-full w-50 rounded-r-lg flex justify-center items-center"
-              :class="
-                unit === 'px'
-                  ? 'bg-[#424242] text-[#F9F9F9]'
-                  : 'bg-[#212121] text-[#AAAAAA]'
-              "
+              :class="getUnitButtonClasses('px')"
             >
               px
             </button>
@@ -166,64 +208,39 @@ function showTooltip(message: string) {
 
         <div class="flex justify-between items-center">
           <div class="text-[#AAAAAA]">Value</div>
-          <div
-            class="relative flex items-center rounded-lg w-[140px] h-[36px]"
-            :class="[
-              isHovering ? 'bg-[#424242]' : 'bg-[#212121]',
-              isFocused ? 'shadow-[0_0_0_1px_#3C67FF] rounded-lg' : '',
-            ]"
-          >
-            <button
-              @click="decrementValue"
-              class="px-3 h-full w-[36px] z-1 rounded-l-lg flex justify-center items-center"
-              :disabled="shouldDisableDecrement"
-              :class="
-                shouldDisableDecrement
-                  ? 'text-[#3B3B3B] cursor-not-allowed'
-                  : 'text-[#F9F9F9] hover:bg-[#424242]'
-              "
-            >
-              <span class="text-xl mb-1">−</span>
-            </button>
-            <input
-              id="input-value"
-              v-model="inputValue"
-              @blur="handleBlur"
-              @focus="handleFocus"
-              @mouseenter="isHovering = true"
-              @mouseleave="isHovering = false"
-              @keyup="handleChange"
-              type="text"
-              class="text-[#F9F9F9] text-center w-full outline-none z-1"
-              :class="[isHovering ? 'bg-[#424242]' : 'bg-[#212121]']"
-            />
-            <button
-              @click="incrementValue"
-              class="px-3 h-full w-[36px] z-1 rounded-r-lg flex justify-center items-center"
-              :disabled="shouldDisableIncrement"
-              :class="
-                shouldDisableIncrement
-                  ? 'text-[#3B3B3B] cursor-not-allowed'
-                  : 'text-[#F9F9F9] hover:bg-[#424242]'
-              "
-            >
-              <span class="text-xl mb-1">+</span>
-            </button>
+            <div :class="getInputContainerClasses()">
+              <button
+                @click="decrementValue"
+                :disabled="shouldDisableDecrement"
+                :class="getDecrementButtonClasses()"
+              >
+                <span class="text-xl mb-1">−</span>
+              </button>
+              <input
+                id="input-value"
+                v-model="inputValue"
+                @blur="handleBlur"
+                @focus="handleFocus"
+                @mouseenter="isHovering = true"
+                @mouseleave="isHovering = false"
+                @keyup="handleChange"
+                type="text"
+                :class="getInputClasses()"
+              />
+              <button
+                @click="incrementValue"
+                :disabled="shouldDisableIncrement"
+                :class="getIncrementButtonClasses()"
+              >
+                <span class="text-xl mb-1">+</span>
+              </button>
 
-            <!-- Tooltip -->
-            <div
-              class="absolute w-fit top-0 opacity-0 transition-all ease-in-out duration-200 whitespace-nowrap z-0 mt-2 bg-[#212121] text-[#F9F9F9] text-sm px-3 py-1 rounded-lg"
-              :class="[
-                isShowTooltip ? 'opacity-100 top-[calc(-100%-8px)]' : 'opacity-0 top-0',
-                tooltipPosition === 'left'
-                  ? 'left-[-55%]'
-                  : 'right-[-55%]',
-              ]"
-            >
-              {{ tooltipMessage }}
-              <div class="absolute bottom-[-6px] left-1/2 h-[7px] w-[7px] rotate-45 bg-[#212121] -translate-x-1/2"></div>
+              <!-- Tooltip -->
+              <div :class="getTooltipClasses()">
+                {{ tooltipMessage }}
+                <div class="absolute bottom-[-6px] left-1/2 h-[7px] w-[7px] rotate-45 bg-[#212121] -translate-x-1/2"></div>
+              </div>
             </div>
-          </div>
         </div>
       </div>
     </div>
