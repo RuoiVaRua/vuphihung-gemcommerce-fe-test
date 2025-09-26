@@ -7,7 +7,7 @@ exports[`toUpperCase 1`] = `
     <div class="bg-[#151515] p-4 rounded-lg w-[280px] h-[120px] m-auto">
       <div class="mb-4 flex justify-between items-center">
         <div class="text-[#AAAAAA]">Unit</div>
-        <div class="flex w-[140px] h-[36px]"><button class="px-4 h-full w-50 rounded-l-lg flex justify-center items-center bg-[#424242] text-[#F9F9F9]"> % </button><button class="px-4 h-full w-50 rounded-r-lg flex justify-center items-center bg-[#212121] text-[#AAAAAA]"> px </button></div>
+        <div class="flex w-[140px] h-[36px]"><button class="px-4 h-full w-50 flex justify-center items-center rounded-l-lg bg-[#424242] text-[#F9F9F9]"> % </button><button class="px-4 h-full w-50 flex justify-center items-center rounded-r-lg bg-[#212121] text-[#AAAAAA]"> px </button></div>
       </div>
       <div class="flex justify-between items-center">
         <div class="text-[#AAAAAA]">Value</div>
