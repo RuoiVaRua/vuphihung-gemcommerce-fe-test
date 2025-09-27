@@ -56,17 +56,26 @@ function handleFocus() {
 function handleBlur() {
 	isFocused.value = false;
 
-	// If input is empty or less than 0, reset to 0
-	if (!inputValue.value || parseFloat(inputValue.value) < 0) {
+	const sanitized = sanitizeInput(inputValue.value);
+	const parsedValue = parseFloat(sanitized);	
+
+	// If input is empty or not a number, reset to 0
+	if (!inputValue.value || !sanitized || !parsedValue) {
+		inputValue.value = "0";
+		value.value = 0;
+		showTooltip("Value must be a floating or natural number");
+		tooltipPosition.value = "center";
+		return;
+	}
+
+	// If input is less than 0, reset to 0
+	if (parsedValue < 0) {
 		inputValue.value = "0";
 		value.value = 0;
 		showTooltip("Value must greater than 0");
 		tooltipPosition.value = "left";
 		return;
 	}
-
-	const sanitized = sanitizeInput(inputValue.value);
-	const parsedValue = parseFloat(sanitized);
 
 	// Validation for percentage values
 	if (unit.value === "%") {
@@ -176,7 +185,9 @@ function getTooltipClasses() {
 		`absolute w-fit top-0 opacity-0 transition-all ease-in-out duration-200 whitespace-nowrap 
 		z-0 mt-2 bg-[#212121] text-[#F9F9F9] text-sm px-3 py-1 rounded-lg`,
 		isShowTooltip.value ? "opacity-100 top-[calc(-100%-8px)]" : "opacity-0 top-0",
-		tooltipPosition.value === "left" ? "left-[-53%]" : "right-[-58%]",
+		tooltipPosition.value === "left" && "left-[-53%]",
+		tooltipPosition.value === "right" && "right-[-58%]",
+		tooltipPosition.value === "center" && "left-[50%] -translate-x-1/2",
 	];
 }
 </script>
