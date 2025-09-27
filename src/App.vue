@@ -131,8 +131,7 @@ function showTooltip(message: string) {
 // Class binding helper functions
 function getUnitButtonClasses(buttonUnit: string) {
 	return [
-		"px-4 h-full w-50 flex justify-center items-center",
-		buttonUnit === "%" ? "rounded-l-lg" : "rounded-r-lg",
+		"px-4 h-full w-50 flex justify-center items-center rounded-[6px]",
 		unit.value === buttonUnit
 			? "bg-[#424242] text-[#F9F9F9]"
 			: "bg-[#212121] text-[#AAAAAA]",
@@ -174,9 +173,10 @@ function getIncrementButtonClasses() {
 
 function getTooltipClasses() {
 	return [
-		"absolute w-fit top-0 opacity-0 transition-all ease-in-out duration-200 whitespace-nowrap z-0 mt-2 bg-[#212121] text-[#F9F9F9] text-sm px-3 py-1 rounded-lg",
+		`absolute w-fit top-0 opacity-0 transition-all ease-in-out duration-200 whitespace-nowrap 
+		z-0 mt-2 bg-[#212121] text-[#F9F9F9] text-sm px-3 py-1 rounded-lg`,
 		isShowTooltip.value ? "opacity-100 top-[calc(-100%-8px)]" : "opacity-0 top-0",
-		tooltipPosition.value === "left" ? "left-[-55%]" : "right-[-55%]",
+		tooltipPosition.value === "left" ? "left-[-53%]" : "right-[-58%]",
 	];
 }
 </script>
@@ -187,10 +187,10 @@ function getTooltipClasses() {
   >
     <div className="w-96 bg-neutral-800 p-4 rounded-lg">
       <!-- Your component go here -->
-      <div class="bg-[#151515] p-4 rounded-lg w-[280px] h-[120px] m-auto">
+      <div class="bg-[#151515] p-4 w-[280px] h-[120px] m-auto">
         <div class="mb-4 flex justify-between items-center">
           <div class="text-[#AAAAAA]">Unit</div>
-          <div class="flex w-[140px] h-[36px]">
+          <div class="flex w-[140px] h-[36px] p-[2px] bg-[#212121] rounded-lg">
             <button
               @click="switchUnit('%')"
               :class="getUnitButtonClasses('%')"
@@ -238,7 +238,8 @@ function getTooltipClasses() {
               <!-- Tooltip -->
               <div :class="getTooltipClasses()">
                 {{ tooltipMessage }}
-                <div class="absolute bottom-[-6px] left-1/2 h-[7px] w-[7px] rotate-45 bg-[#212121] -translate-x-1/2"></div>
+                <div class="absolute bottom-[-4px] left-1/2 h-[7px] w-[7px] 
+				rotate-45 bg-[#212121] -translate-x-1/2"></div>
               </div>
             </div>
         </div>
